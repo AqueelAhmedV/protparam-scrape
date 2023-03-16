@@ -7,6 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
+from bs4 import BeautifulSoup
+
 url = "https://web.expasy.org/protparam/"
 sequence = "FLPFQQFGRDIA"
 
@@ -20,5 +22,15 @@ seq_field = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="sib_b
 
 seq_field.send_keys(sequence)
 
-time.sleep(10)
+time.sleep(3)
 submit_btn = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="sib_body"]/form/p[1]/input[2]')))
+submit_btn.click()
+
+data_div = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="sib_body"]/pre[2]')))
+
+page_source = driver.page_source
+
+soup = BeautifulSoup(page_source, 'lxml')
+
+print(soup)
+
